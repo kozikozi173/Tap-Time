@@ -307,7 +307,7 @@
             position: fixed !important;
             top: 50vh !important;
             left: 50% !important;
-            transform: translateX(-50%) translateY(-50%) !important;
+            transform: translateX(-50%) translateY(-55%) !important;
             z-index: 9999 !important;
             margin: 0 !important;
             width: 100vw !important;
@@ -318,13 +318,21 @@
             font-size: 5rem !important;
             color: rgba(255, 255, 255, 0.95) !important;
             text-shadow: 0 0 40px rgba(0, 0, 0, 0.9), 3px 3px 6px rgba(0, 0, 0, 0.8) !important;
-            background: transparent !important;
+            background: none !important;
             padding: 0 !important;
             border-radius: 0 !important;
             backdrop-filter: none !important;
             border: none !important;
             margin: 0 !important;
             display: block !important;
+            box-shadow: none !important;
+        }
+
+        body.immersive-mode #record-screen .timer-card {
+            background: none !important;
+            box-shadow: none !important;
+            border: none !important;
+            backdrop-filter: none !important;
         }
 
         body.immersive-mode .navigation {
