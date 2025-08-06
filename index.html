@@ -1496,10 +1496,22 @@
         // プリセット背景
         const presetBackgrounds = [
             {
-                id: 'lofi-study',
+                id: 'lofi-study-1',
                 name: 'LoFi勉強部屋',
                 type: 'image',
-                url: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#8B7355"/><rect x="0" y="500" width="1200" height="300" fill="#5D4E37"/><rect x="100" y="200" width="300" height="400" fill="#D2B48C"/><rect x="150" y="150" width="200" height="50" fill="#8B4513"/><rect x="160" y="160" width="180" height="30" fill="#CD853F"/><rect x="500" y="250" width="400" height="350" fill="#654321"/><rect x="530" y="280" width="340" height="50" fill="#8B7355"/><rect x="550" y="340" width="300" height="30" fill="#FFFFFF"/><rect x="560" y="380" width="280" height="20" fill="#000" opacity="0.2"/><circle cx="700" cy="220" r="40" fill="#FFDBAC"/><ellipse cx="690" cy="210" rx="3" ry="4" fill="#000"/><ellipse cx="710" cy="210" rx="3" ry="4" fill="#000"/><path d="M690 230 Q700 240 710 230" stroke="#000" stroke-width="2" fill="none"/><rect x="650" y="250" width="100" height="80" fill="#FF69B4" opacity="0.8"/><rect x="670" y="270" width="60" height="40" fill="#FFB6C1"/><rect x="950" y="300" width="100" height="200" fill="#8B4513"/><rect x="970" y="250" width="60" height="50" fill="#90EE90"/><circle cx="1000" cy="230" r="15" fill="#FFD700"/><rect x="200" y="600" width="800" height="100" fill="#4B0082" opacity="0.3"/><text x="600" y="650" text-anchor="middle" fill="#FFF" font-size="24" font-family="serif">Study Room</text></svg>')
+                url: './lofi-study-1.gif'
+            },
+            {
+                id: 'lofi-night-room',
+                name: 'LoFi夜の部屋',
+                type: 'image', 
+                url: './lofi-night-room.gif'
+            },
+            {
+                id: 'lofi-cyber-room',
+                name: 'LoFiサイバー部屋', 
+                type: 'image',
+                url: './lofi-cyber-room.gif'
             }
         ];
 
@@ -1848,6 +1860,12 @@
             // 画面切り替え時に没入モードを終了
             if (screenName !== 'record') {
                 clearImmersiveTimer();
+            } else if (screenName === 'record') {
+                // 記録画面に戻った時、記録中なら5秒後に没入モード
+                if (appState.isRecording) {
+                    console.log('記録画面に戻りました。記録中なので5秒後に没入モードに入ります');
+                    setImmersiveTimer();
+                }
             }
             
             // 画面固有の更新処理
@@ -2335,4 +2353,3 @@
     </script>
 </body>
 </html>
-            
