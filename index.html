@@ -288,21 +288,245 @@
             transition: all 0.5s ease;
         }
 
-        /* 没入モード - 非常にシンプルなアプローチ */
-        body.immersive-mode #record-screen .header,
-        body.immersive-mode #record-screen .category-select,
-        body.immersive-mode #record-screen .main-button,
-        body.immersive-mode #record-screen .recording-status,
-        body.immersive-mode #record-screen .current-time {
+        /* タイマー画面専用スタイル */
+        .timer-circle-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 30px;
+        }
+
+        .timer-circle {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .timer-circle-bg {
+            stroke: var(--bg-secondary);
+            stroke-width: 12;
+            fill: none;
+        }
+
+        .timer-circle-progress {
+            stroke: var(--accent-color);
+            stroke-width: 12;
+            fill: none;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.3s ease;
+        }
+
+        .timer-countdown {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 200px;
+        }
+
+        .timer-countdown-time {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            line-height: 1;
+            display: block;
+        }
+
+        .timer-countdown-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            display: block;
+        }
+
+        .timer-preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .timer-preset-item {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .timer-preset-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        .timer-preset-item.active {
+            border-color: var(--accent-color);
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .timer-preset-emoji {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .timer-preset-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .timer-preset-time {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .timer-control-btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .timer-control-btn.primary {
+            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
+            color: white;
+        }
+
+        .timer-control-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .timer-control-btn.secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .timer-control-btn.secondary:hover {
+            background: var(--border-color);
+        }
+
+        .timer-control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* タイマー完了モーダル */
+        .timer-complete-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--overlay-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .timer-complete-content {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            animation: bounceIn 0.5s ease;
+        }
+
+        .timer-complete-emoji {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: celebrate 1s ease infinite;
+        }
+
+        .timer-complete-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .timer-complete-message {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .timer-complete-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .timer-complete-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        @keyframes celebrate {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-5deg); }
+            75% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 没入モード - 共通 */
+        body.immersive-mode .header,
+        body.immersive-mode .category-select,
+        body.immersive-mode .main-button,
+        body.immersive-mode .recording-status,
+        body.immersive-mode .current-time,
+        body.immersive-mode .timer-preset-grid,
+        body.immersive-mode .timer-controls,
+        body.immersive-mode .custom-time-input,
+        body.immersive-mode .timer-countdown-label {
             display: none !important;
         }
 
-        body.immersive-mode #record-screen .timer-card {
+        body.immersive-mode .timer-card {
             background: transparent !important;
             box-shadow: none !important;
             border: none !important;
         }
 
+        /* 記録画面の没入モード */
         body.immersive-mode #record-screen .timer-display {
             position: fixed !important;
             top: 50vh !important;
@@ -318,21 +542,32 @@
             font-size: 5rem !important;
             color: rgba(255, 255, 255, 0.95) !important;
             text-shadow: 0 0 40px rgba(0, 0, 0, 0.9), 3px 3px 6px rgba(0, 0, 0, 0.8) !important;
-            background: none !important;
-            padding: 0 !important;
-            border-radius: 0 !important;
-            backdrop-filter: none !important;
-            border: none !important;
-            margin: 0 !important;
-            display: block !important;
-            box-shadow: none !important;
         }
 
-        body.immersive-mode #record-screen .timer-card {
-            background: none !important;
-            box-shadow: none !important;
-            border: none !important;
-            backdrop-filter: none !important;
+        /* タイマー画面の没入モード */
+        body.immersive-mode #timer-screen .timer-circle-container {
+            position: fixed !important;
+            top: 50vh !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 9999 !important;
+            width: 350px !important;
+            height: 350px !important;
+        }
+
+        body.immersive-mode #timer-screen .timer-countdown-time {
+            font-size: 4rem !important;
+            color: rgba(255, 255, 255, 0.95) !important;
+            text-shadow: 0 0 40px rgba(0, 0, 0, 0.9), 3px 3px 6px rgba(0, 0, 0, 0.8) !important;
+        }
+
+        body.immersive-mode #timer-screen .timer-circle-progress {
+            stroke: rgba(255, 255, 255, 0.9) !important;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+
+        body.immersive-mode #timer-screen .timer-circle-bg {
+            stroke: rgba(255, 255, 255, 0.2) !important;
         }
 
         body.immersive-mode .navigation {
@@ -540,7 +775,7 @@
             flex-direction: column;
             align-items: center;
             gap: 5px;
-            padding: 10px 20px;
+            padding: 10px 15px;
             border: none;
             background: none;
             cursor: pointer;
@@ -607,37 +842,177 @@
             margin-bottom: 20px;
         }
 
-        .date-nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
+        /* Calendar styles */
+        .calendar-container {
             margin-bottom: 30px;
         }
 
-        .date-nav button {
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .month-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .month-nav button {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--card-bg);
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .month-nav button:hover {
+            background: var(--bg-secondary);
+            transform: scale(1.05);
+        }
+
+        .month-nav button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .month-year {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background: var(--border-color);
+            border-radius: 10px;
+            padding: 2px;
+        }
+
+        .calendar-day-header {
+            background: var(--bg-secondary);
+            padding: 10px 5px;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .calendar-day-header:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .calendar-day-header:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .calendar-day {
+            background: var(--card-bg);
+            padding: 8px 4px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: var(--bg-secondary);
+            transform: scale(1.02);
+        }
+
+        .calendar-day.other-month {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .calendar-day.other-month:hover {
+            background: var(--card-bg);
+            transform: none;
+        }
+
+        .calendar-day.today {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .calendar-day.today:hover {
+            background: var(--accent-hover);
+        }
+
+        .calendar-day.has-records {
+            border: 2px solid var(--success-color);
+        }
+
+        .day-number {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .day-total {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-align: center;
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+
+        .calendar-day.today .day-total {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        /* Detail view styles */
+        .detail-view {
+            display: none;
+        }
+
+        .detail-view.active {
+            display: block;
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             padding: 10px 15px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             background: var(--card-bg);
             cursor: pointer;
-            font-size: 1.2rem;
             color: var(--text-primary);
             transition: all 0.2s ease;
+            font-family: var(--font-family);
+            font-size: 1rem;
         }
 
-        .date-nav button:hover {
+        .back-button:hover {
             background: var(--bg-secondary);
-            transform: scale(1.05);
+            transform: translateX(-2px);
         }
 
-        .date-nav button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .date-display {
-            font-size: 1.2rem;
+        .detail-date {
+            font-size: 1.5rem;
             font-weight: 600;
             color: var(--text-primary);
         }
@@ -854,19 +1229,21 @@
             color: var(--text-secondary);
         }
 
-        /* Background Selector */
-        .background-selector {
+        /* Background Selector & Alarm Sound Selector */
+        .background-selector, .alarm-selector {
             margin-bottom: 20px;
         }
 
-        .background-options {
+        .background-options, .alarm-options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
             gap: 10px;
             margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
-        .background-option {
+        .background-option, .alarm-option {
             position: relative;
             aspect-ratio: 16/9;
             border: 2px solid var(--border-color);
@@ -876,32 +1253,44 @@
             transition: all 0.3s ease;
         }
 
-        .background-option.active {
+        .alarm-option {
+            aspect-ratio: 1/1;
+        }
+
+        .background-option.active, .alarm-option.active {
             border-color: var(--accent-color);
             transform: scale(1.05);
         }
 
-        .background-option:hover {
+        .background-option:hover, .alarm-option:hover {
             transform: scale(1.02);
             box-shadow: 0 5px 15px var(--shadow-color);
         }
 
-        .background-preview {
+        .background-preview, .alarm-preview {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .background-label {
+        .alarm-preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+        }
+
+        .background-label, .alarm-label {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
             background: rgba(0,0,0,0.7);
             color: white;
-            padding: 5px;
+            padding: 2px 4px;
             text-align: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 500;
         }
 
@@ -1132,6 +1521,88 @@
             color: var(--text-primary);
         }
 
+        /* タイマープリセット管理 */
+        .timer-preset-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .timer-preset-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .timer-preset-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .timer-preset-list-emoji {
+            font-size: 1.5rem;
+        }
+
+        .timer-preset-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .timer-preset-list-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .timer-preset-list-time {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Custom Time Input */
+        .custom-time-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .time-input-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .time-input {
+            width: 60px;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.1rem;
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .time-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .time-input-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
         /* Animations */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
@@ -1149,6 +1620,16 @@
 
         .background-container.active {
             animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes countdown-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .timer-countdown.pulsing .timer-countdown-time {
+            animation: countdown-pulse 1s ease-in-out infinite;
+            color: var(--danger-color);
         }
 
         /* PWA specific styles */
@@ -1179,6 +1660,14 @@
 
             .background-options {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timer-preset-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .nav-item {
+                padding: 10px 10px;
             }
         }
     </style>
@@ -1235,30 +1724,107 @@
             </div>
         </div>
 
-        <!-- 統計画面 -->
-        <div id="stats-screen" class="screen">
-            <div class="stats-screen">
-                <div class="date-nav">
-                    <h2 class="screen-title">統計</h2>
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <button id="prev-day">←</button>
-                        <div id="view-date" class="date-display"></div>
-                        <button id="next-day">→</button>
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
-                    <div class="card">
-                        <h3 class="card-title">カテゴリ別時間</h3>
-                        <div id="category-stats">
-                            <div class="no-records">この日の記録はありません</div>
+        <!-- タイマー画面 -->
+        <div id="timer-screen" class="screen">
+            <div class="container">
+                <div class="timer-card">
+                    <!-- タイマー円形表示 -->
+                    <div class="timer-circle-container">
+                        <svg class="timer-circle" viewBox="0 0 280 280">
+                            <circle class="timer-circle-bg" cx="140" cy="140" r="130"></circle>
+                            <circle class="timer-circle-progress" cx="140" cy="140" r="130"
+                                    stroke-dasharray="816.8" stroke-dashoffset="816.8"></circle>
+                        </svg>
+                        <div class="timer-countdown">
+                            <div id="timer-countdown-time" class="timer-countdown-time">00:00</div>
+                            <div id="timer-countdown-label" class="timer-countdown-label">タイマーを選択</div>
                         </div>
                     </div>
 
+                    <!-- コントロールボタン -->
+                    <div class="timer-controls">
+                        <button id="timer-start-btn" class="timer-control-btn primary">
+                            <span>▶</span>
+                            <span>開始</span>
+                        </button>
+                        <button id="timer-reset-btn" class="timer-control-btn secondary">
+                            <span>↻</span>
+                            <span>リセット</span>
+                        </button>
+                    </div>
+
+                    <!-- プリセット選択 -->
+                    <div class="timer-preset-grid" id="timer-preset-grid">
+                        <!-- プリセットがここに動的に追加される -->
+                    </div>
+
+                    <!-- カスタム時間入力 -->
+                    <div class="custom-time-input">
+                        <div class="time-input-group">
+                            <input type="number" id="custom-minutes" class="time-input" min="0" max="99" value="25">
+                            <span class="time-input-label">分</span>
+                        </div>
+                        <div class="time-input-group">
+                            <input type="number" id="custom-seconds" class="time-input" min="0" max="59" value="0">
+                            <span class="time-input-label">秒</span>
+                        </div>
+                        <button class="timer-control-btn secondary" style="flex: none; padding: 8px 15px;" onclick="setCustomTime()">
+                            セット
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Immersive mode overlay for timer -->
+                <div class="immersive-overlay" id="timer-immersive-overlay"></div>
+            </div>
+        </div>
+
+        <!-- 統計画面 -->
+        <div id="stats-screen" class="screen">
+            <div class="stats-screen">
+                <h2 class="screen-title">統計</h2>
+
+                <!-- カレンダービュー -->
+                <div id="calendar-view" class="calendar-view">
                     <div class="card">
-                        <h3 class="card-title">記録一覧</h3>
-                        <div id="record-list" class="record-list">
-                            <div class="no-records">この日の記録はありません</div>
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <div class="month-nav">
+                                    <button id="prev-month">‹</button>
+                                    <div id="current-month" class="month-year"></div>
+                                    <button id="next-month">›</button>
+                                </div>
+                            </div>
+                            <div class="calendar-grid" id="calendar-grid">
+                                <!-- カレンダーがここに動的に生成される -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 詳細ビュー -->
+                <div id="detail-view" class="detail-view">
+                    <div class="detail-header">
+                        <button id="back-to-calendar" class="back-button">
+                            <span>←</span>
+                            <span>カレンダーに戻る</span>
+                        </button>
+                        <div id="detail-date" class="detail-date"></div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+                        <div class="card">
+                            <h3 class="card-title">カテゴリ別時間</h3>
+                            <div id="detail-category-stats">
+                                <div class="no-records">この日の記録はありません</div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="card-title">記録一覧</h3>
+                            <div id="detail-record-list" class="record-list">
+                                <div class="no-records">この日の記録はありません</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1400,6 +1966,51 @@
                     </div>
                 </div>
 
+                <!-- タイマープリセット管理 -->
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 class="card-title" style="margin-bottom: 0;">タイマープリセット</h3>
+                        <button id="add-timer-preset-btn" class="add-btn">
+                            <span>+</span>
+                            <span>追加</span>
+                        </button>
+                    </div>
+                    <div id="timer-preset-list" class="timer-preset-list">
+                        <!-- タイマープリセットがここに動的に追加される -->
+                    </div>
+                </div>
+
+                <!-- アラーム音設定 -->
+                <div class="card">
+                    <h3 class="card-title">アラーム音設定</h3>
+                    
+                    <div class="alarm-selector">
+                        <label class="form-label">アラーム音を選択</label>
+                        <div class="alarm-options" id="alarm-sound-options">
+                            <div class="alarm-option active" data-sound="default">
+                                <div class="alarm-preview">
+                                    🔔
+                                </div>
+                                <div class="alarm-label">デフォルト</div>
+                            </div>
+                        </div>
+                        
+                        <div class="file-input-container">
+                            <input type="file" id="custom-alarm-sound" class="file-input" accept="audio/*,.mp3,.wav,.ogg,.m4a">
+                            <label for="custom-alarm-sound" class="file-input-label">
+                                🎵 カスタムアラーム音をアップロード<br>
+                                <small>MP3、WAV、OGG、M4Aなど（最大50MB）</small>
+                            </label>
+                        </div>
+                        
+                        <div style="margin-top: 15px;">
+                            <button id="test-alarm-btn" class="btn btn-secondary" style="width: 100%;">
+                                🔊 アラーム音をテスト
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- カテゴリ管理 -->
                 <div class="card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -1416,14 +2027,30 @@
 
                 <!-- データ管理 -->
                 <div class="card">
-                    <h3 class="card-title">データ</h3>
-                    <button id="export-btn" class="export-btn">
-                        <span>📥</span>
-                        <span>CSVエクスポート</span>
-                    </button>
-                    <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">
-                        記録データをCSVファイルとしてダウンロードします
-                    </p>
+                    <h3 class="card-title">データ管理</h3>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div>
+                            <button id="export-btn" class="export-btn">
+                                <span>📥</span>
+                                <span>CSVエクスポート</span>
+                            </button>
+                            <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">
+                                記録データをCSVファイルとしてダウンロードします
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <input type="file" id="import-input" class="file-input" accept=".csv" style="display: none;">
+                            <button id="import-btn" class="add-btn">
+                                <span>📤</span>
+                                <span>CSVインポート</span>
+                            </button>
+                            <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">
+                                CSVファイルから記録データを読み込みます<br>
+                                <small>※既存データは保持されます</small>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1436,6 +2063,10 @@
                 <div class="nav-icon">⏱️</div>
                 <div class="nav-label">記録</div>
             </button>
+            <button class="nav-item" data-screen="timer">
+                <div class="nav-icon">⏰</div>
+                <div class="nav-label">タイマー</div>
+            </button>
             <button class="nav-item" data-screen="stats">
                 <div class="nav-icon">📊</div>
                 <div class="nav-label">統計</div>
@@ -1447,7 +2078,7 @@
         </div>
     </div>
 
-    <!-- モーダル -->
+    <!-- カテゴリモーダル -->
     <div id="category-modal" class="modal hidden">
         <div class="modal-content">
             <h3 id="modal-title" class="modal-title">カテゴリ追加</h3>
@@ -1475,6 +2106,55 @@
         </div>
     </div>
 
+    <!-- タイマープリセットモーダル -->
+    <div id="timer-preset-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3 id="timer-modal-title" class="modal-title">タイマープリセット追加</h3>
+            
+            <div class="form-group">
+                <label class="form-label">プリセット名</label>
+                <input type="text" id="timer-preset-name-input" class="form-input" placeholder="例: ポモドーロ">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">絵文字</label>
+                <input type="text" id="timer-preset-emoji-input" class="form-input" placeholder="例: 🍅" maxlength="2">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">時間設定</label>
+                <div style="display: flex; gap: 10px;">
+                    <div style="flex: 1;">
+                        <input type="number" id="timer-preset-minutes-input" class="form-input" placeholder="分" min="0" max="99">
+                    </div>
+                    <div style="flex: 1;">
+                        <input type="number" id="timer-preset-seconds-input" class="form-input" placeholder="秒" min="0" max="59">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button id="timer-cancel-btn" class="btn btn-secondary">キャンセル</button>
+                <button id="timer-save-btn" class="btn btn-primary">追加</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- タイマー完了モーダル -->
+    <div id="timer-complete-modal" class="timer-complete-modal hidden">
+        <div class="timer-complete-content">
+            <div class="timer-complete-emoji">🎉</div>
+            <h2 class="timer-complete-title">お疲れ様でした！</h2>
+            <p class="timer-complete-message">
+                <span id="completed-timer-name">タイマー</span>が完了しました！<br>
+                素晴らしい集中力でした✨
+            </p>
+            <button class="timer-complete-btn" onclick="closeTimerCompleteModal()">
+                🛑 アラームを停止
+            </button>
+        </div>
+    </div>
+
     <script>
         // アプリケーションの状態
         let appState = {
@@ -1488,16 +2168,45 @@
                 { id: 1, name: '勉強', color: '#3b82f6' },
                 { id: 2, name: '仕事', color: '#10b981' },
                 { id: 3, name: '読書', color: '#8b5cf6' },
-                { id: 4, name: '運動', color: '#f59e0b' }
+                { id: 4, name: '運動', color: '#f59e0b' },
+                { id: 5, name: 'タイマー集中', color: '#ec4899' }  // タイマー用カテゴリを追加
             ],
             records: [],
             viewDate: new Date(),
+            calendarDate: new Date(),
+            showingDetailView: false,
+            detailViewDate: null,
             editingCategory: null,
             currentTheme: localStorage.getItem('taptime-theme') || 'light',
             currentFont: localStorage.getItem('taptime-font') || 'cute',
             currentBackground: localStorage.getItem('taptime-background') || 'none',
             customBackgrounds: JSON.parse(localStorage.getItem('taptime-custom-backgrounds') || '[]'),
-            immersiveTimeout: null
+            immersiveTimeout: null,
+            // タイマー関連の状態
+            timerPresets: [
+                { id: 1, name: 'ポモドーロ', emoji: '🍅', minutes: 25, seconds: 0 },
+                { id: 2, name: '短い休憩', emoji: '☕', minutes: 5, seconds: 0 },
+                { id: 3, name: '長い休憩', emoji: '🌴', minutes: 15, seconds: 0 },
+                { id: 4, name: '瞑想', emoji: '🧘', minutes: 10, seconds: 0 },
+                { id: 5, name: 'パワーナップ', emoji: '😴', minutes: 20, seconds: 0 },
+                { id: 6, name: 'クイック集中', emoji: '⚡', minutes: 2, seconds: 0 }
+            ],
+            selectedTimerPreset: null,
+            timerState: 'idle', // idle, running, paused
+            timerDuration: 0, // in milliseconds
+            timerRemaining: 0, // in milliseconds
+            timerInterval: null,
+            timerStartTime: null,
+            timerActualStartTime: null, // タイマー開始時刻（記録用）
+            editingTimerPreset: null,
+            timerImmersiveTimeout: null,
+            audioContext: null,
+            alarmPlayed: false,
+            // アラーム音関連
+            alarmSound: localStorage.getItem('taptime-alarm-sound') || 'default',
+            customAlarmSounds: JSON.parse(localStorage.getItem('taptime-custom-alarm-sounds') || '[]'),
+            currentAlarmAudio: null,
+            alarmInterval: null
         };
 
         // プリセットカラー
@@ -1529,6 +2238,687 @@
                 url: './lofi-cyber-room.gif'
             }
         ];
+
+        // アラーム音を再生する関数
+        function playAlarmSound() {
+            if (appState.alarmPlayed) return;
+            appState.alarmPlayed = true;
+
+            stopAlarmSound(); // 既存の音を停止
+
+            if (appState.alarmSound === 'default') {
+                // デフォルトのビープ音（Web Audio API）
+                if (!appState.audioContext) {
+                    appState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                
+                const playBeep = () => {
+                    if (!appState.alarmPlayed) return;
+                    
+                    const ctx = appState.audioContext;
+                    const oscillator = ctx.createOscillator();
+                    const gainNode = ctx.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+                    
+                    oscillator.frequency.setValueAtTime(800, ctx.currentTime);
+                    gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+                    
+                    oscillator.start(ctx.currentTime);
+                    oscillator.stop(ctx.currentTime + 0.2);
+                };
+
+                // 繰り返し再生
+                playBeep();
+                appState.alarmInterval = setInterval(() => {
+                    if (appState.alarmPlayed) {
+                        playBeep();
+                    } else {
+                        clearInterval(appState.alarmInterval);
+                    }
+                }, 500);
+                
+            } else {
+                // カスタムアラーム音
+                const customSound = appState.customAlarmSounds.find(s => s.id === appState.alarmSound);
+                if (customSound) {
+                    appState.currentAlarmAudio = new Audio(customSound.url);
+                    appState.currentAlarmAudio.loop = true;
+                    appState.currentAlarmAudio.volume = 0.5;
+                    appState.currentAlarmAudio.play().catch(e => {
+                        console.error('Failed to play alarm sound:', e);
+                        // フォールバック: デフォルト音を再生
+                        appState.alarmSound = 'default';
+                        playAlarmSound();
+                    });
+                }
+            }
+            
+            // バイブレーション（対応している場合）
+            if ('vibrate' in navigator) {
+                const vibratePattern = [200, 100, 200, 100, 200];
+                navigator.vibrate(vibratePattern);
+                // 繰り返しバイブレーション
+                appState.vibrateInterval = setInterval(() => {
+                    if (appState.alarmPlayed) {
+                        navigator.vibrate(vibratePattern);
+                    } else {
+                        clearInterval(appState.vibrateInterval);
+                    }
+                }, 2000);
+            }
+        }
+
+        function stopAlarmSound() {
+            appState.alarmPlayed = false;
+            
+            // 音を停止
+            if (appState.currentAlarmAudio) {
+                appState.currentAlarmAudio.pause();
+                appState.currentAlarmAudio.currentTime = 0;
+                appState.currentAlarmAudio = null;
+            }
+            
+            // インターバルをクリア
+            if (appState.alarmInterval) {
+                clearInterval(appState.alarmInterval);
+                appState.alarmInterval = null;
+            }
+            
+            // バイブレーションを停止
+            if ('vibrate' in navigator) {
+                navigator.vibrate(0);
+                if (appState.vibrateInterval) {
+                    clearInterval(appState.vibrateInterval);
+                    appState.vibrateInterval = null;
+                }
+            }
+        }
+
+        // タイマー関連の関数
+        function updateTimerPresetGrid() {
+            const grid = document.getElementById('timer-preset-grid');
+            if (!grid) return;
+            
+            let html = '';
+            appState.timerPresets.forEach(preset => {
+                const isActive = appState.selectedTimerPreset?.id === preset.id;
+                html += `
+                    <div class="timer-preset-item ${isActive ? 'active' : ''}" onclick="selectTimerPreset(${preset.id})">
+                        <div class="timer-preset-emoji">${preset.emoji}</div>
+                        <div class="timer-preset-name">${preset.name}</div>
+                        <div class="timer-preset-time">${preset.minutes}分${preset.seconds > 0 ? preset.seconds + '秒' : ''}</div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        function selectTimerPreset(presetId) {
+            if (appState.timerState === 'running') return;
+            
+            const preset = appState.timerPresets.find(p => p.id === presetId);
+            if (preset) {
+                appState.selectedTimerPreset = preset;
+                appState.timerDuration = (preset.minutes * 60 + preset.seconds) * 1000;
+                appState.timerRemaining = appState.timerDuration;
+                appState.timerState = 'idle'; // リセット状態にする
+                updateTimerDisplay();
+                updateTimerPresetGrid();
+                updateTimerControls(); // ボタンの状態を更新
+            }
+        }
+
+        function setCustomTime() {
+            if (appState.timerState === 'running') return;
+            
+            const minutes = parseInt(document.getElementById('custom-minutes').value) || 0;
+            const seconds = parseInt(document.getElementById('custom-seconds').value) || 0;
+            
+            if (minutes === 0 && seconds === 0) {
+                alert('時間を設定してください');
+                return;
+            }
+            
+            appState.selectedTimerPreset = {
+                id: 'custom',
+                name: 'カスタム',
+                emoji: '⏱️',
+                minutes: minutes,
+                seconds: seconds
+            };
+            
+            appState.timerDuration = (minutes * 60 + seconds) * 1000;
+            appState.timerRemaining = appState.timerDuration;
+            appState.timerState = 'idle'; // リセット状態にする
+            updateTimerDisplay();
+            updateTimerPresetGrid();
+            updateTimerControls(); // ボタンの状態を更新
+        }
+
+        function updateTimerDisplay() {
+            const timeDisplay = document.getElementById('timer-countdown-time');
+            const label = document.getElementById('timer-countdown-label');
+            const circle = document.querySelector('.timer-circle-progress');
+            
+            if (!timeDisplay || !circle) return;
+            
+            const totalSeconds = Math.ceil(appState.timerRemaining / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            
+            timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (appState.selectedTimerPreset) {
+                label.textContent = appState.selectedTimerPreset.name;
+            } else {
+                label.textContent = 'タイマーを選択';
+            }
+            
+            // 円形プログレスバーの更新
+            const circumference = 2 * Math.PI * 130; // 円周
+            const progress = appState.timerDuration > 0 ? appState.timerRemaining / appState.timerDuration : 1;
+            const offset = circumference * (1 - progress);
+            
+            circle.style.strokeDasharray = circumference;
+            circle.style.strokeDashoffset = offset;
+            
+            // 残り時間が少なくなったらパルスアニメーション（5秒以下）
+            const countdown = document.querySelector('.timer-countdown');
+            if (totalSeconds <= 5 && totalSeconds > 0 && appState.timerState === 'running') {
+                countdown.classList.add('pulsing');
+            } else {
+                countdown.classList.remove('pulsing');
+            }
+        }
+
+        function startTimer() {
+            if (!appState.selectedTimerPreset || appState.timerRemaining <= 0) {
+                alert('タイマーを設定してください');
+                return;
+            }
+            
+            appState.timerState = 'running';
+            appState.timerStartTime = Date.now() - (appState.timerDuration - appState.timerRemaining);
+            appState.timerActualStartTime = Date.now(); // 実際の開始時刻を記録
+            appState.alarmPlayed = false;
+            
+            updateTimerControls();
+            
+            // タイマー更新
+            appState.timerInterval = setInterval(() => {
+                const elapsed = Date.now() - appState.timerStartTime;
+                appState.timerRemaining = Math.max(0, appState.timerDuration - elapsed);
+                
+                updateTimerDisplay();
+                
+                if (appState.timerRemaining === 0) {
+                    completeTimer();
+                }
+            }, 100);
+            
+            // 没入モードタイマー設定
+            setTimerImmersiveTimer();
+        }
+
+        function pauseTimer() {
+            if (appState.timerState !== 'running') return;
+            
+            appState.timerState = 'paused';
+            clearInterval(appState.timerInterval);
+            updateTimerControls();
+            
+            // 没入モードクリア
+            clearTimerImmersiveTimer();
+        }
+
+        function resumeTimer() {
+            if (appState.timerState !== 'paused') return;
+            
+            appState.timerState = 'running';
+            appState.timerStartTime = Date.now() - (appState.timerDuration - appState.timerRemaining);
+            
+            appState.timerInterval = setInterval(() => {
+                const elapsed = Date.now() - appState.timerStartTime;
+                appState.timerRemaining = Math.max(0, appState.timerDuration - elapsed);
+                
+                updateTimerDisplay();
+                
+                if (appState.timerRemaining === 0) {
+                    completeTimer();
+                }
+            }, 100);
+            
+            updateTimerControls();
+            setTimerImmersiveTimer();
+        }
+
+        function resetTimer() {
+            // タイマーが実行中だった場合、途中終了として記録
+            if ((appState.timerState === 'running' || appState.timerState === 'paused') && appState.timerActualStartTime) {
+                const actualDuration = Date.now() - appState.timerActualStartTime;
+                if (actualDuration > 5000) { // 5秒以上なら記録
+                    saveTimerRecord(actualDuration, false);
+                    // カレンダービューを更新
+                    if (appState.activeScreen === 'stats') {
+                        if (appState.showingDetailView) {
+                            showDetailView(appState.detailViewDate);
+                        } else {
+                            updateCalendar();
+                        }
+                    }
+                }
+            }
+            
+            appState.timerState = 'idle';
+            appState.timerActualStartTime = null;
+            clearInterval(appState.timerInterval);
+            
+            if (appState.selectedTimerPreset) {
+                appState.timerRemaining = appState.timerDuration;
+            } else {
+                appState.timerRemaining = 0;
+            }
+            
+            updateTimerDisplay();
+            updateTimerControls();
+            clearTimerImmersiveTimer();
+        }
+
+        function completeTimer() {
+            const actualDuration = Date.now() - appState.timerActualStartTime;
+            
+            appState.timerState = 'idle';
+            clearInterval(appState.timerInterval);
+            clearTimerImmersiveTimer();
+            
+            // タイマー記録を保存
+            saveTimerRecord(actualDuration, true);
+            
+            // アラーム音を鳴らす
+            playAlarmSound();
+            
+            // 完了モーダルを表示
+            const modal = document.getElementById('timer-complete-modal');
+            const nameSpan = document.getElementById('completed-timer-name');
+            
+            if (appState.selectedTimerPreset) {
+                nameSpan.textContent = `${appState.selectedTimerPreset.emoji} ${appState.selectedTimerPreset.name}`;
+            }
+            
+            modal.classList.remove('hidden');
+            
+            // リセット
+            appState.timerRemaining = appState.timerDuration;
+            updateTimerDisplay();
+            updateTimerControls();
+            
+            // カレンダービューを更新（統計画面の場合）
+            if (appState.activeScreen === 'stats') {
+                if (appState.showingDetailView) {
+                    showDetailView(appState.detailViewDate);
+                } else {
+                    updateCalendar();
+                }
+            }
+        }
+
+        function saveTimerRecord(duration, completed) {
+            // タイマー集中カテゴリを取得または作成
+            let timerCategory = appState.categories.find(cat => cat.name === 'タイマー集中');
+            if (!timerCategory) {
+                timerCategory = {
+                    id: 'timer-category-' + Date.now(),
+                    name: 'タイマー集中',
+                    color: '#ec4899'
+                };
+                appState.categories.push(timerCategory);
+                // カテゴリドロップダウンを更新
+                updateCategoryDropdown();
+            }
+            
+            const endTime = Date.now();
+            const startTime = endTime - duration;
+            
+            const timerName = appState.selectedTimerPreset ? 
+                `${appState.selectedTimerPreset.emoji} ${appState.selectedTimerPreset.name}` : 
+                'タイマー';
+            
+            const newRecord = {
+                id: Date.now() + Math.random(),
+                categoryId: timerCategory.id,
+                startTime: startTime,
+                endTime: endTime,
+                duration: duration,
+                date: new Date(startTime).toDateString(),
+                note: completed ? `${timerName} 完了` : `${timerName} 途中終了`,
+                isTimer: true
+            };
+            
+            appState.records.push(newRecord);
+            
+            // ローカルストレージに保存
+            try {
+                localStorage.setItem('taptime-records', JSON.stringify(appState.records));
+                localStorage.setItem('taptime-categories', JSON.stringify(appState.categories));
+                console.log('Timer record saved:', newRecord);
+            } catch (e) {
+                console.error('Failed to save timer record:', e);
+            }
+        }
+
+        function closeTimerCompleteModal() {
+            document.getElementById('timer-complete-modal').classList.add('hidden');
+            stopAlarmSound(); // アラーム音を停止
+        }
+
+        function updateTimerControls() {
+            const startBtn = document.getElementById('timer-start-btn');
+            const resetBtn = document.getElementById('timer-reset-btn');
+            
+            if (!startBtn || !resetBtn) return;
+            
+            // 既存のイベントリスナーを削除して新しく設定
+            const newStartBtn = startBtn.cloneNode(true);
+            startBtn.parentNode.replaceChild(newStartBtn, startBtn);
+            
+            switch (appState.timerState) {
+                case 'idle':
+                    newStartBtn.innerHTML = '<span>▶</span><span>開始</span>';
+                    newStartBtn.onclick = startTimer;
+                    newStartBtn.disabled = !appState.selectedTimerPreset;
+                    resetBtn.disabled = false;
+                    break;
+                case 'running':
+                    newStartBtn.innerHTML = '<span>⏸</span><span>一時停止</span>';
+                    newStartBtn.onclick = pauseTimer;
+                    newStartBtn.disabled = false;
+                    resetBtn.disabled = false;
+                    break;
+                case 'paused':
+                    newStartBtn.innerHTML = '<span>▶</span><span>再開</span>';
+                    newStartBtn.onclick = resumeTimer;
+                    newStartBtn.disabled = false;
+                    resetBtn.disabled = false;
+                    break;
+            }
+        }
+
+        // タイマー画面の没入モード
+        function setTimerImmersiveTimer() {
+            if (appState.timerImmersiveTimeout) {
+                clearTimeout(appState.timerImmersiveTimeout);
+            }
+            
+            if (appState.timerState === 'running' && appState.activeScreen === 'timer') {
+                appState.timerImmersiveTimeout = setTimeout(() => {
+                    if (appState.timerState === 'running' && appState.activeScreen === 'timer') {
+                        enterImmersiveMode();
+                    }
+                }, 5000);
+            }
+        }
+
+        function clearTimerImmersiveTimer() {
+            if (appState.timerImmersiveTimeout) {
+                clearTimeout(appState.timerImmersiveTimeout);
+                appState.timerImmersiveTimeout = null;
+            }
+            if (appState.activeScreen === 'timer') {
+                exitImmersiveMode();
+            }
+        }
+
+        // タイマープリセット管理
+        function updateTimerPresetList() {
+            const list = document.getElementById('timer-preset-list');
+            if (!list) return;
+            
+            let html = '';
+            appState.timerPresets.forEach(preset => {
+                html += `
+                    <div class="timer-preset-list-item">
+                        <div class="timer-preset-info">
+                            <div class="timer-preset-list-emoji">${preset.emoji}</div>
+                            <div class="timer-preset-details">
+                                <div class="timer-preset-list-name">${preset.name}</div>
+                                <div class="timer-preset-list-time">${preset.minutes}分${preset.seconds > 0 ? preset.seconds + '秒' : ''}</div>
+                            </div>
+                        </div>
+                        <div class="category-actions">
+                            <button class="action-btn" onclick="editTimerPreset(${preset.id})">✏️</button>
+                            <button class="action-btn" onclick="deleteTimerPreset(${preset.id})" ${appState.timerPresets.length <= 1 ? 'disabled' : ''}>🗑️</button>
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        function openTimerPresetModal(isEdit = false, preset = null) {
+            const modal = document.getElementById('timer-preset-modal');
+            const title = document.getElementById('timer-modal-title');
+            const nameInput = document.getElementById('timer-preset-name-input');
+            const emojiInput = document.getElementById('timer-preset-emoji-input');
+            const minutesInput = document.getElementById('timer-preset-minutes-input');
+            const secondsInput = document.getElementById('timer-preset-seconds-input');
+            const saveBtn = document.getElementById('timer-save-btn');
+            
+            appState.editingTimerPreset = preset;
+            
+            if (isEdit && preset) {
+                title.textContent = 'タイマープリセット編集';
+                nameInput.value = preset.name;
+                emojiInput.value = preset.emoji;
+                minutesInput.value = preset.minutes;
+                secondsInput.value = preset.seconds;
+                saveBtn.textContent = '更新';
+            } else {
+                title.textContent = 'タイマープリセット追加';
+                nameInput.value = '';
+                emojiInput.value = '⏰';
+                minutesInput.value = '25';
+                secondsInput.value = '0';
+                saveBtn.textContent = '追加';
+            }
+            
+            modal.classList.remove('hidden');
+            nameInput.focus();
+        }
+
+        function closeTimerPresetModal() {
+            document.getElementById('timer-preset-modal').classList.add('hidden');
+            appState.editingTimerPreset = null;
+        }
+
+        function saveTimerPreset() {
+            const nameInput = document.getElementById('timer-preset-name-input');
+            const emojiInput = document.getElementById('timer-preset-emoji-input');
+            const minutesInput = document.getElementById('timer-preset-minutes-input');
+            const secondsInput = document.getElementById('timer-preset-seconds-input');
+            
+            const name = nameInput.value.trim();
+            const emoji = emojiInput.value.trim() || '⏰';
+            const minutes = parseInt(minutesInput.value) || 0;
+            const seconds = parseInt(secondsInput.value) || 0;
+            
+            if (!name) {
+                alert('プリセット名を入力してください');
+                return;
+            }
+            
+            if (minutes === 0 && seconds === 0) {
+                alert('時間を設定してください');
+                return;
+            }
+            
+            if (appState.editingTimerPreset) {
+                // 編集
+                const index = appState.timerPresets.findIndex(p => p.id === appState.editingTimerPreset.id);
+                if (index !== -1) {
+                    appState.timerPresets[index] = { ...appState.timerPresets[index], name, emoji, minutes, seconds };
+                }
+            } else {
+                // 新規追加
+                const newPreset = {
+                    id: Date.now(),
+                    name,
+                    emoji,
+                    minutes,
+                    seconds
+                };
+                appState.timerPresets.push(newPreset);
+            }
+            
+            updateTimerPresetGrid();
+            updateTimerPresetList();
+            closeTimerPresetModal();
+            saveTimerPresetsToStorage();
+        }
+
+        function editTimerPreset(id) {
+            const preset = appState.timerPresets.find(p => p.id === id);
+            if (preset) {
+                openTimerPresetModal(true, preset);
+            }
+        }
+
+        function deleteTimerPreset(id) {
+            if (appState.timerPresets.length <= 1) {
+                alert('最低1つのプリセットが必要です');
+                return;
+            }
+            
+            if (confirm('このプリセットを削除しますか？')) {
+                appState.timerPresets = appState.timerPresets.filter(p => p.id !== id);
+                
+                if (appState.selectedTimerPreset?.id === id) {
+                    appState.selectedTimerPreset = null;
+                    appState.timerRemaining = 0;
+                    updateTimerDisplay();
+                }
+                
+                updateTimerPresetGrid();
+                updateTimerPresetList();
+                saveTimerPresetsToStorage();
+            }
+        }
+
+        function saveTimerPresetsToStorage() {
+            localStorage.setItem('taptime-timer-presets', JSON.stringify(appState.timerPresets));
+        }
+
+        function loadTimerPresetsFromStorage() {
+            const saved = localStorage.getItem('taptime-timer-presets');
+            if (saved) {
+                try {
+                    appState.timerPresets = JSON.parse(saved);
+                } catch (e) {
+                    console.error('Failed to load timer presets:', e);
+                }
+            }
+        }
+
+        // アラーム音設定の保存と適用
+        function setAlarmSound(soundId) {
+            appState.alarmSound = soundId;
+            localStorage.setItem('taptime-alarm-sound', soundId);
+            
+            // オプションの表示更新
+            document.querySelectorAll('#alarm-sound-options .background-option').forEach(option => {
+                option.classList.toggle('active', option.dataset.sound === soundId);
+            });
+        }
+
+        // カスタムアラーム音の追加
+        function addCustomAlarmSound(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const customSound = {
+                    id: 'custom-alarm-' + Date.now(),
+                    name: file.name,
+                    url: e.target.result
+                };
+                
+                appState.customAlarmSounds.push(customSound);
+                localStorage.setItem('taptime-custom-alarm-sounds', JSON.stringify(appState.customAlarmSounds));
+                
+                updateAlarmSoundOptions();
+                setAlarmSound(customSound.id);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // アラーム音オプションの更新
+        function updateAlarmSoundOptions() {
+            const container = document.getElementById('alarm-sound-options');
+            if (!container) return;
+            
+            let html = `
+                <div class="background-option ${appState.alarmSound === 'default' ? 'active' : ''}" data-sound="default">
+                    <div class="background-preview" style="background: linear-gradient(45deg, #3b82f6, #8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                        🔔
+                    </div>
+                    <div class="background-label">デフォルト</div>
+                </div>
+            `;
+            
+            // カスタムアラーム音を追加
+            appState.customAlarmSounds.forEach(sound => {
+                const isActive = appState.alarmSound === sound.id;
+                html += `
+                    <div class="background-option ${isActive ? 'active' : ''}" data-sound="${sound.id}">
+                        <div class="background-preview" style="background: linear-gradient(45deg, #ec4899, #f59e0b); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                            🎵
+                        </div>
+                        <div class="background-label">${sound.name}</div>
+                        <button class="action-btn" style="position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.5); color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px;" onclick="removeCustomAlarmSound('${sound.id}')">×</button>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+            // イベントリスナーを追加
+            container.querySelectorAll('.background-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('action-btn')) {
+                        setAlarmSound(option.dataset.sound);
+                    }
+                });
+            });
+        }
+
+        // カスタムアラーム音の削除
+        function removeCustomAlarmSound(soundId) {
+            if (confirm('このアラーム音を削除しますか？')) {
+                appState.customAlarmSounds = appState.customAlarmSounds.filter(s => s.id !== soundId);
+                localStorage.setItem('taptime-custom-alarm-sounds', JSON.stringify(appState.customAlarmSounds));
+                
+                if (appState.alarmSound === soundId) {
+                    setAlarmSound('default');
+                }
+                
+                updateAlarmSoundOptions();
+            }
+        }
+
+        // アラーム音のテスト
+        function testAlarmSound() {
+            // 既存の音を停止
+            stopAlarmSound();
+            
+            // テスト用に一時的にアラームを再生
+            appState.alarmPlayed = false;
+            playAlarmSound();
+            
+            // 3秒後に自動停止
+            setTimeout(() => {
+                stopAlarmSound();
+            }, 3000);
+        }
 
         // テーマ設定の保存と適用
         function setTheme(theme) {
@@ -1669,17 +3059,22 @@
             });
         }
 
-        // 没入モードの制御 - 最もシンプルな方法
+        // 没入モードの制御
         function enterImmersiveMode() {
             document.body.classList.add('immersive-mode');
-            document.getElementById('immersive-overlay').style.display = 'block';
-            console.log('没入モード ON - bodyにクラス追加');
+            
+            // 現在の画面に応じたオーバーレイを表示
+            if (appState.activeScreen === 'record') {
+                document.getElementById('immersive-overlay').style.display = 'block';
+            } else if (appState.activeScreen === 'timer') {
+                document.getElementById('timer-immersive-overlay').style.display = 'block';
+            }
         }
 
         function exitImmersiveMode() {
             document.body.classList.remove('immersive-mode');
             document.getElementById('immersive-overlay').style.display = 'none';
-            console.log('没入モード OFF - bodyからクラス削除');
+            document.getElementById('timer-immersive-overlay').style.display = 'none';
         }
 
         // 没入モードタイマーの設定
@@ -1689,13 +3084,11 @@
             }
             
             if (appState.isRecording && appState.activeScreen === 'record') {
-                console.log('Setting immersive timer for 5 seconds');
                 appState.immersiveTimeout = setTimeout(() => {
                     if (appState.isRecording && appState.activeScreen === 'record') {
-                        console.log('Entering immersive mode after 5 seconds');
                         enterImmersiveMode();
                     }
-                }, 5000); // 5秒後に没入モード
+                }, 5000);
             }
         }
 
@@ -1705,26 +3098,26 @@
                 clearTimeout(appState.immersiveTimeout);
                 appState.immersiveTimeout = null;
             }
-            exitImmersiveMode();
+            if (appState.activeScreen === 'record') {
+                exitImmersiveMode();
+            }
         }
 
         // ページの表示状態変更を監視
         function handleVisibilityChange() {
             if (document.hidden) {
-                // タブが非表示になった時
-                console.log('タブが非表示になりました');
                 if (appState.immersiveTimeout) {
                     clearTimeout(appState.immersiveTimeout);
                     appState.immersiveTimeout = null;
                 }
+                if (appState.timerImmersiveTimeout) {
+                    clearTimeout(appState.timerImmersiveTimeout);
+                    appState.timerImmersiveTimeout = null;
+                }
                 exitImmersiveMode();
-            } else {
-                // タブが表示状態に戻った時
-                console.log('タブが表示状態に戻りました');
-                // タブ復帰時は没入モードに入らない（手動操作を待つ）
-                console.log('タブ復帰時は没入モードタイマーを設定しません');
             }
         }
+
         // カスタム背景の削除
         function removeCustomBackground(bgId) {
             if (confirm('この背景を削除しますか？')) {
@@ -1753,17 +3146,25 @@
 
         function updateCurrentTime() {
             appState.currentTime = new Date();
-            document.getElementById('current-time').textContent = appState.currentTime.toLocaleTimeString('ja-JP');
+            const currentTimeEl = document.getElementById('current-time');
+            if (currentTimeEl) {
+                currentTimeEl.textContent = appState.currentTime.toLocaleTimeString('ja-JP');
+            }
             
             if (appState.isRecording && appState.recordingStart) {
                 appState.elapsedTime = Date.now() - appState.recordingStart;
-                document.getElementById('elapsed-time').textContent = formatTime(appState.elapsedTime);
+                const elapsedTimeEl = document.getElementById('elapsed-time');
+                if (elapsedTimeEl) {
+                    elapsedTimeEl.textContent = formatTime(appState.elapsedTime);
+                }
             }
         }
 
         function updateCategoryDropdown() {
             const dropdown = document.getElementById('category-dropdown');
             const selectedDisplay = document.getElementById('selected-category');
+            
+            if (!dropdown || !selectedDisplay) return;
             
             // 選択中のカテゴリ表示を更新
             const selectedCategory = getCategoryById(appState.selectedCategory);
@@ -1797,6 +3198,8 @@
             const status = document.getElementById('recording-status');
             const mainButton = document.getElementById('main-button');
             const dropdownBtn = document.getElementById('category-dropdown-btn');
+            
+            if (!status || !mainButton || !dropdownBtn) return;
             
             if (appState.isRecording) {
                 const category = getCategoryById(appState.selectedCategory);
@@ -1840,7 +3243,6 @@
                 appState.elapsedTime = 0;
                 document.getElementById('elapsed-time').textContent = '00:00:00';
                 
-                // 没入モードを終了
                 clearImmersiveTimer();
             } else {
                 // 記録開始
@@ -1848,7 +3250,6 @@
                 appState.isRecording = true;
                 appState.elapsedTime = 0;
                 
-                // 5秒後に没入モードに入るタイマーを設定
                 setImmersiveTimer();
             }
             
@@ -1875,26 +3276,125 @@
             // 画面切り替え時に没入モードを終了
             if (screenName !== 'record') {
                 clearImmersiveTimer();
-            } else if (screenName === 'record') {
-                // 記録画面に戻った時、記録中なら5秒後に没入モード
-                if (appState.isRecording) {
-                    console.log('記録画面に戻りました。記録中なので5秒後に没入モードに入ります');
-                    setImmersiveTimer();
-                }
+            } else if (screenName === 'record' && appState.isRecording) {
+                setImmersiveTimer();
+            }
+            
+            if (screenName !== 'timer') {
+                clearTimerImmersiveTimer();
+            } else if (screenName === 'timer' && appState.timerState === 'running') {
+                setTimerImmersiveTimer();
             }
             
             // 画面固有の更新処理
             if (screenName === 'stats') {
-                updateStatsScreen();
+                if (appState.showingDetailView) {
+                    showDetailView(appState.detailViewDate);
+                } else {
+                    showCalendarView();
+                }
             } else if (screenName === 'settings') {
                 updateSettingsScreen();
+            // タイマー画面の初期化
+            } else if (screenName === 'timer') {
+                updateTimerDisplay();
+                updateTimerPresetGrid();
+                updateTimerControls(); // ボタンの状態を確実に更新
             }
         }
 
-        function updateStatsScreen() {
-            document.getElementById('view-date').textContent = appState.viewDate.toLocaleDateString('ja-JP');
+        // カレンダービューの表示
+        function showCalendarView() {
+            appState.showingDetailView = false;
+            document.getElementById('calendar-view').style.display = 'block';
+            document.getElementById('detail-view').classList.remove('active');
+            updateCalendar();
+        }
+
+        // 詳細ビューの表示
+        function showDetailView(date) {
+            appState.showingDetailView = true;
+            appState.detailViewDate = date;
+            document.getElementById('calendar-view').style.display = 'none';
+            document.getElementById('detail-view').classList.add('active');
+            document.getElementById('detail-date').textContent = date.toLocaleDateString('ja-JP');
+            updateDetailView(date);
+        }
+
+        // カレンダーの更新
+        function updateCalendar() {
+            const monthYear = document.getElementById('current-month');
+            const calendarGrid = document.getElementById('calendar-grid');
             
-            const dateStr = appState.viewDate.toDateString();
+            const year = appState.calendarDate.getFullYear();
+            const month = appState.calendarDate.getMonth();
+            
+            monthYear.textContent = `${year}年${month + 1}月`;
+            
+            // カレンダーグリッドをクリア
+            calendarGrid.innerHTML = '';
+            
+            // 曜日ヘッダー
+            const dayHeaders = ['日', '月', '火', '水', '木', '金', '土'];
+            dayHeaders.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                calendarGrid.appendChild(dayHeader);
+            });
+            
+            // 月の最初の日と最後の日
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+            
+            // 6週間分の日付を生成
+            for (let i = 0; i < 42; i++) {
+                const currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + i);
+                
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                const isCurrentMonth = currentDate.getMonth() === month;
+                const isToday = currentDate.toDateString() === new Date().toDateString();
+                const dateStr = currentDate.toDateString();
+                
+                // その日の記録を取得
+                const dayRecords = appState.records.filter(record => record.date === dateStr);
+                const totalTime = dayRecords.reduce((sum, record) => sum + record.duration, 0);
+                const hasRecords = dayRecords.length > 0;
+                
+                if (!isCurrentMonth) {
+                    dayElement.classList.add('other-month');
+                }
+                if (isToday) {
+                    dayElement.classList.add('today');
+                }
+                if (hasRecords) {
+                    dayElement.classList.add('has-records');
+                }
+                
+                dayElement.innerHTML = `
+                    <div class="day-number">${currentDate.getDate()}</div>
+                    ${hasRecords ? `<div class="day-total">${formatTime(totalTime)}</div>` : ''}
+                `;
+                
+                // クリックイベント
+                if (isCurrentMonth) {
+                    dayElement.addEventListener('click', () => {
+                        showDetailView(new Date(currentDate));
+                    });
+                }
+                
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        // 詳細ビューの更新
+        function updateDetailView(date) {
+            const dateStr = date.toDateString();
             const dayRecords = appState.records.filter(record => record.date === dateStr);
             
             // カテゴリ別統計
@@ -1913,7 +3413,7 @@
             });
             
             // 統計表示
-            const statsContainer = document.getElementById('category-stats');
+            const statsContainer = document.getElementById('detail-category-stats');
             if (Object.keys(categoryStats).length === 0) {
                 statsContainer.innerHTML = '<div class="no-records">この日の記録はありません</div>';
             } else {
@@ -1948,19 +3448,20 @@
             }
             
             // 記録一覧
-            const recordList = document.getElementById('record-list');
+            const recordList = document.getElementById('detail-record-list');
             if (dayRecords.length === 0) {
                 recordList.innerHTML = '<div class="no-records">この日の記録はありません</div>';
             } else {
                 let html = '';
                 dayRecords.sort((a, b) => b.startTime - a.startTime).forEach(record => {
                     const category = getCategoryById(record.categoryId);
+                    const noteText = record.note ? ` (${record.note})` : '';
                     html += `
                         <div class="record-item">
                             <div class="record-info">
                                 <span class="color-dot" style="background-color: ${category.color};"></span>
                                 <div class="record-details">
-                                    <div class="record-category">${category.name}</div>
+                                    <div class="record-category">${category.name}${noteText}</div>
                                     <div class="record-time">
                                         ${new Date(record.startTime).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })} - 
                                         ${new Date(record.endTime).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}
@@ -1973,10 +3474,14 @@
                 });
                 recordList.innerHTML = html;
             }
-            
-            // 次の日ボタンの状態
-            const today = new Date().toDateString();
-            document.getElementById('next-day').disabled = appState.viewDate.toDateString() === today;
+        }
+
+        function updateStatsScreen() {
+            if (appState.showingDetailView) {
+                showDetailView(appState.detailViewDate);
+            } else {
+                showCalendarView();
+            }
         }
 
         function updateSettingsScreen() {
@@ -2000,6 +3505,8 @@
             
             categoryList.innerHTML = html;
             updateBackgroundOptions();
+            updateAlarmSoundOptions();
+            updateTimerPresetList();
         }
 
         function openModal(isEdit = false, category = null) {
@@ -2140,6 +3647,124 @@
             link.click();
         }
 
+        function importData() {
+            const input = document.getElementById('import-input');
+            input.click();
+        }
+
+        function handleFileImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const csvText = e.target.result;
+                    const lines = csvText.split('\n');
+                    
+                    if (lines.length < 2) {
+                        alert('CSVファイルが空または無効です');
+                        return;
+                    }
+
+                    const headers = lines[0].split(',');
+                    const expectedHeaders = ['日付', 'カテゴリ', '開始時間', '終了時間', '時間(分)'];
+                    
+                    // ヘッダーチェック（柔軟に対応）
+                    const hasValidHeaders = expectedHeaders.some(header => 
+                        headers.some(h => h.trim().includes(header) || h.trim().includes(header.replace('(分)', '')))
+                    );
+                    
+                    if (!hasValidHeaders) {
+                        alert('CSVファイルの形式が正しくありません。\n期待されるヘッダー: 日付, カテゴリ, 開始時間, 終了時間, 時間(分)');
+                        return;
+                    }
+
+                    let importedCount = 0;
+                    let skippedCount = 0;
+                    const newRecords = [];
+
+                    // データ行を処理
+                    for (let i = 1; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        if (!line) continue;
+
+                        const columns = line.split(',');
+                        if (columns.length < 4) continue;
+
+                        try {
+                            const dateStr = columns[0].trim();
+                            const categoryName = columns[1].trim();
+                            const startTimeStr = columns[2].trim();
+                            const endTimeStr = columns[3].trim();
+
+                            // 日付と時間をパース
+                            const startDateTime = new Date(`${dateStr} ${startTimeStr}`);
+                            const endDateTime = new Date(`${dateStr} ${endTimeStr}`);
+
+                            if (isNaN(startDateTime.getTime()) || isNaN(endDateTime.getTime())) {
+                                skippedCount++;
+                                continue;
+                            }
+
+                            // カテゴリを検索または作成
+                            let category = appState.categories.find(cat => cat.name === categoryName);
+                            if (!category) {
+                                // 新しいカテゴリを作成
+                                const colors = ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4', '#84cc16', '#f97316'];
+                                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                                category = {
+                                    id: Date.now() + Math.random(),
+                                    name: categoryName,
+                                    color: randomColor
+                                };
+                                appState.categories.push(category);
+                            }
+
+                            // 記録を作成
+                            const duration = endDateTime.getTime() - startDateTime.getTime();
+                            if (duration > 0) {
+                                const newRecord = {
+                                    id: Date.now() + Math.random(),
+                                    categoryId: category.id,
+                                    startTime: startDateTime.getTime(),
+                                    endTime: endDateTime.getTime(),
+                                    duration: duration,
+                                    date: startDateTime.toDateString()
+                                };
+                                newRecords.push(newRecord);
+                                importedCount++;
+                            } else {
+                                skippedCount++;
+                            }
+                        } catch (error) {
+                            skippedCount++;
+                        }
+                    }
+
+                    // データを追加
+                    appState.records.push(...newRecords);
+                    updateCategoryDropdown();
+                    updateSettingsScreen();
+
+                    // 結果を表示
+                    if (importedCount > 0) {
+                        alert(`インポート完了！\n成功: ${importedCount}件\nスキップ: ${skippedCount}件`);
+                    } else {
+                        alert('有効なデータが見つかりませんでした。\nファイル形式を確認してください。');
+                    }
+
+                } catch (error) {
+                    alert('ファイルの読み込みに失敗しました。\nCSVファイルを確認してください。');
+                    console.error('Import error:', error);
+                }
+            };
+            
+            reader.readAsText(file, 'UTF-8');
+            // ファイル選択をリセット
+            event.target.value = '';
+        }
+
         // イベントリスナーの設定
         function setupEventListeners() {
             // タイマー更新
@@ -2171,19 +3796,26 @@
                 });
             });
             
-            // 統計画面の日付ナビゲーション
-            document.getElementById('prev-day').addEventListener('click', () => {
-                appState.viewDate = new Date(appState.viewDate.getTime() - 24*60*60*1000);
-                updateStatsScreen();
+            // 統計画面のナビゲーション
+            document.getElementById('prev-month').addEventListener('click', () => {
+                appState.calendarDate = new Date(appState.calendarDate.getFullYear(), appState.calendarDate.getMonth() - 1, 1);
+                updateCalendar();
             });
             
-            document.getElementById('next-day').addEventListener('click', () => {
-                const tomorrow = new Date(appState.viewDate.getTime() + 24*60*60*1000);
-                if (tomorrow.toDateString() <= new Date().toDateString()) {
-                    appState.viewDate = tomorrow;
-                    updateStatsScreen();
-                }
+            document.getElementById('next-month').addEventListener('click', () => {
+                appState.calendarDate = new Date(appState.calendarDate.getFullYear(), appState.calendarDate.getMonth() + 1, 1);
+                updateCalendar();
             });
+
+            // 戻るボタンのイベントリスナー
+            const backButton = document.getElementById('back-to-calendar');
+            if (backButton) {
+                backButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    showCalendarView();
+                });
+            }
             
             // テーマ選択
             document.querySelectorAll('.theme-option').forEach(option => {
@@ -2207,48 +3839,57 @@
                 }
             });
 
-            // 没入モードオーバーレイクリック
+            // カスタムアラーム音ファイル選択
+            document.getElementById('custom-alarm-sound').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    console.log('Selected audio file:', file.name, file.type, file.size);
+                    addCustomAlarmSound(file);
+                }
+            });
+
+            // アラーム音テストボタン
+            document.getElementById('test-alarm-btn').addEventListener('click', testAlarmSound);
+
+            // 没入モードオーバーレイクリック（記録画面）
             document.getElementById('immersive-overlay').addEventListener('click', (e) => {
-                console.log('オーバーレイがクリックされました');
                 exitImmersiveMode();
                 if (appState.isRecording) {
-                    console.log('5秒後に再び没入モードに入ります');
                     setImmersiveTimer();
+                }
+            });
+            
+            // 没入モードオーバーレイクリック（タイマー画面）
+            document.getElementById('timer-immersive-overlay').addEventListener('click', (e) => {
+                exitImmersiveMode();
+                if (appState.timerState === 'running') {
+                    setTimerImmersiveTimer();
                 }
             });
             
             // ページの表示状態変更を監視（タブ切り替え対応）
             document.addEventListener('visibilitychange', handleVisibilityChange);
             
-            // 画面全体のクリックで没入モード終了
-            document.addEventListener('click', (e) => {
-                if (document.body.classList.contains('immersive-mode')) {
-                    console.log('没入モード中にクリックされました');
-                    exitImmersiveMode();
-                    if (appState.isRecording) {
-                        setImmersiveTimer();
-                    }
-                }
-            });
+            // タイマーコントロール - 初期設定のみ
+            document.getElementById('timer-reset-btn').addEventListener('click', resetTimer);
             
-            // キーボードで没入モード終了
-            document.addEventListener('keydown', (e) => {
-                if (document.body.classList.contains('immersive-mode')) {
-                    console.log('没入モード中にキーが押されました');
-                    exitImmersiveMode();
-                    if (appState.isRecording) {
-                        setImmersiveTimer();
-                    }
-                }
-            });
+            // 初期状態でタイマーコントロールを設定
+            updateTimerControls();
             
             // 設定画面のボタン
             document.getElementById('add-category-btn').addEventListener('click', () => openModal());
+            document.getElementById('add-timer-preset-btn').addEventListener('click', () => openTimerPresetModal());
             document.getElementById('export-btn').addEventListener('click', exportData);
+            document.getElementById('import-btn').addEventListener('click', importData);
+            document.getElementById('import-input').addEventListener('change', handleFileImport);
             
-            // モーダルのボタン
+            // カテゴリモーダルのボタン
             document.getElementById('cancel-btn').addEventListener('click', closeModal);
             document.getElementById('save-btn').addEventListener('click', saveCategory);
+            
+            // タイマープリセットモーダルのボタン
+            document.getElementById('timer-cancel-btn').addEventListener('click', closeTimerPresetModal);
+            document.getElementById('timer-save-btn').addEventListener('click', saveTimerPreset);
             
             // カラーピッカーの同期
             document.getElementById('color-picker').addEventListener('change', (e) => {
@@ -2273,6 +3914,15 @@
                 }
             });
             
+            // タイマープリセット名入力でのEnterキー
+            document.getElementById('timer-preset-name-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    saveTimerPreset();
+                } else if (e.key === 'Escape') {
+                    closeTimerPresetModal();
+                }
+            });
+            
             // モーダル背景クリックで閉じる
             document.getElementById('category-modal').addEventListener('click', (e) => {
                 if (e.target.id === 'category-modal') {
@@ -2280,35 +3930,68 @@
                 }
             });
             
+            document.getElementById('timer-preset-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'timer-preset-modal') {
+                    closeTimerPresetModal();
+                }
+            });
+            
             // PWA用のキーボードショートカット
             document.addEventListener('keydown', (e) => {
-                // Ctrl/Cmd + Space でタイマー開始/停止
+                // Ctrl/Cmd + Space でタイマー/記録の開始/停止
                 if ((e.ctrlKey || e.metaKey) && e.code === 'Space') {
                     e.preventDefault();
                     if (appState.activeScreen === 'record') {
                         toggleRecording();
+                    } else if (appState.activeScreen === 'timer') {
+                        if (appState.timerState === 'idle') {
+                            startTimer();
+                        } else if (appState.timerState === 'running') {
+                            pauseTimer();
+                        } else if (appState.timerState === 'paused') {
+                            resumeTimer();
+                        }
                     }
                 }
                 
-                // Ctrl/Cmd + 1,2,3 で画面切り替え
-                if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '3') {
+                // Ctrl/Cmd + 1,2,3,4 で画面切り替え
+                if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '4') {
                     e.preventDefault();
-                    const screens = ['record', 'stats', 'settings'];
+                    const screens = ['record', 'timer', 'stats', 'settings'];
                     switchScreen(screens[parseInt(e.key) - 1]);
                 }
             });
         }
 
-        // アプリケーション初期化
+        // グローバル関数として定義（onclick属性から呼び出すため）
+        window.startTimer = startTimer;
+        window.pauseTimer = pauseTimer;
+        window.resumeTimer = resumeTimer;
+        window.resetTimer = resetTimer;
+        window.setCustomTime = setCustomTime;
+        window.selectTimerPreset = selectTimerPreset;
+        window.editTimerPreset = editTimerPreset;
+        window.deleteTimerPreset = deleteTimerPreset;
+        window.editCategory = editCategory;
+        window.deleteCategory = deleteCategory;
+        window.selectColor = selectColor;
+        window.removeCustomBackground = removeCustomBackground;
+        window.removeCustomAlarmSound = removeCustomAlarmSound;
+        window.closeTimerCompleteModal = closeTimerCompleteModal;
+        window.stopAlarmSound = stopAlarmSound;
         function initApp() {
             // 保存された設定を適用
             setTheme(appState.currentTheme);
             setFont(appState.currentFont);
             setBackground(appState.currentBackground);
             
+            loadTimerPresetsFromStorage();
+            
             updateCurrentTime();
             updateCategoryDropdown();
             updateRecordingStatus();
+            updateTimerDisplay();
+            updateTimerControls();
             setupEventListeners();
             
             // PWA用のサービスワーカー登録
@@ -2339,6 +4022,7 @@
             localStorage.setItem('taptime-categories', JSON.stringify(appState.categories));
             localStorage.setItem('taptime-records', JSON.stringify(appState.records));
             localStorage.setItem('taptime-selected-category', appState.selectedCategory.toString());
+            saveTimerPresetsToStorage();
         });
 
         // ページ読み込み時にデータを復元
@@ -2349,18 +4033,32 @@
                 const savedSelectedCategory = localStorage.getItem('taptime-selected-category');
                 
                 if (savedCategories) {
-                    appState.categories = JSON.parse(savedCategories);
+                    const categories = JSON.parse(savedCategories);
+                    // タイマー集中カテゴリが存在することを確認
+                    if (!categories.find(cat => cat.name === 'タイマー集中')) {
+                        categories.push({
+                            id: 'timer-category-default',
+                            name: 'タイマー集中',
+                            color: '#ec4899'
+                        });
+                    }
+                    appState.categories = categories;
                 }
                 
                 if (savedRecords) {
                     appState.records = JSON.parse(savedRecords);
+                    console.log('Loaded records:', appState.records.length);
                 }
                 
                 if (savedSelectedCategory) {
-                    appState.selectedCategory = parseInt(savedSelectedCategory);
+                    appState.selectedCategory = parseInt(savedSelectedCategory) || appState.categories[0].id;
                 }
                 
                 updateCategoryDropdown();
+                // 統計画面が表示されている場合は更新
+                if (appState.activeScreen === 'stats') {
+                    updateCalendar();
+                }
             } catch (error) {
                 console.warn('データの復元に失敗しました:', error);
             }
@@ -2368,4 +4066,3 @@
     </script>
 </body>
 </html>
-            
